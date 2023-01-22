@@ -75,7 +75,7 @@ def remove_html_tags(text):
 
 
 # Requisito 5
-def get_tech_news(amount: int) -> list[dict]:
+def get_tech_news(amount: int) -> list:
     """
     Retrieves a specified amount of technology news articles.
     :param amount: The number of technology news articles to retrieve.

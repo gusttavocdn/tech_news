@@ -75,7 +75,12 @@ def remove_html_tags(text):
 
 
 # Requisito 5
-def get_tech_news(amount):
+def get_tech_news(amount: int) -> list[dict]:
+    """
+    Retrieves a specified amount of technology news articles.
+    :param amount: The number of technology news articles to retrieve.
+    :return: A list of technology news articles.
+    """
     necessary_pages = ceil(amount / 12)
     pages_links = get_pages_links(necessary_pages)
     tech_news_list = fetch_tech_news(pages_links, amount)
@@ -86,6 +91,16 @@ def get_tech_news(amount):
 
 
 def fetch_tech_news(pages_links, amount):
+    """
+    Fetches the technology news articles from the provided list of page links.
+
+    :param pages_links: A list of links to the pages.
+
+    :param amount: The number of technology news articles to retrieve.
+
+    :return: A list of technology news articles.
+    """
+
     list = []
     for page in pages_links:
         html_content = fetch(page)
@@ -99,7 +114,12 @@ def fetch_tech_news(pages_links, amount):
     return list
 
 
-def get_pages_links(amount):
+def get_pages_links(amount: int) -> list[str]:
+    """
+    Generates a list of links to the pages
+    :param amount: The number of pages to scrape for.
+    :return: A list of links to the pages.
+    """
     next_page = scrape_next_page_link(fetch(BASE_URL))
 
     pages_links = [BASE_URL]

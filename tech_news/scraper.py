@@ -1,6 +1,20 @@
+import time
+import requests
+from requests.exceptions import ReadTimeout, MissingSchema
+
+
 # Requisito 1
-def fetch(url):
+def fetch(url: str) -> (str | None):
     """Seu código deve vir aqui"""
+    time.sleep(1)
+    try:
+        response = requests.get(url, headers={"user-agent": "Fake user-agent"})
+    except (ReadTimeout, MissingSchema):
+        return None
+    else:
+        if response.status_code != 200:
+            return None
+        return response.text
 
 
 # Requisito 2

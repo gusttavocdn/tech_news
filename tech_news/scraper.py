@@ -1,6 +1,7 @@
 import time
 import requests
 from requests.exceptions import ReadTimeout, MissingSchema
+from bs4 import BeautifulSoup
 
 
 # Requisito 1
@@ -20,6 +21,12 @@ def fetch(url: str) -> (str | None):
 # Requisito 2
 def scrape_updates(html_content):
     """Seu código deve vir aqui"""
+    soup = BeautifulSoup(html_content, "html.parser")
+    links = [
+        anchor["href"]
+        for anchor in soup.find_all("a", {"class": "cs-overlay-link"})
+    ]
+    return links
 
 
 # Requisito 3

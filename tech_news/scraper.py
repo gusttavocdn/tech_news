@@ -114,7 +114,7 @@ def fetch_tech_news(pages_links, amount):
     return list
 
 
-def get_pages_links(amount: int) -> list[str]:
+def get_pages_links(amount: int) -> list:
     """
     Generates a list of links to the pages
     :param amount: The number of pages to scrape for.

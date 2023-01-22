@@ -5,7 +5,8 @@
 
 from pymongo import MongoClient
 from decouple import config
-import copy
+
+# import copy
 
 DB_HOST = config("DB_HOST", default="localhost")
 DB_PORT = config("DB_PORT", default="27017")
@@ -15,8 +16,8 @@ db = client.tech_news
 
 
 def create_news(data):
-    db.news.insert_many(copy.deepcopy(data))
-    # db.news.insert_many(data)
+    # db.news.insert_many(copy.deepcopy(data))
+    db.news.insert_many(data)
 
 
 def insert_or_update(notice):

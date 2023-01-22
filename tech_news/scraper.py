@@ -47,7 +47,9 @@ def scrape_news(html_content):
         "writer": soup.find("li", {"class": "meta-author"})
         .find("span", {"class": "author"})
         .a.string,
-        "summary": soup.find("div", {"class": "entry-content"}).find("p").text,
+        "summary": remove_html_tags(
+            soup.find("div", {"class": "entry-content"}).find("p").text
+        ).strip(),
         "tags": [tag.string for tag in soup.find_all("a", {"rel": "tag"})],
         "category": soup.find("a", {"class": "category-style"})
         .find("span", {"class": "label"})
@@ -55,13 +57,16 @@ def scrape_news(html_content):
         "comments_count": 0,
     }
 
-    final_char = news["summary"][-1]
-
-    if final_char not in ".?!”":
-        last_dot_index = news["summary"].rfind(".")
-        news["summary"] = news["summary"][: last_dot_index + 1]
-
     return news
+
+
+# https://medium.com/@jorlugaqui/how-to-strip-html-tags-from-a-string-in-python-7cb81a2bbf44
+def remove_html_tags(text):
+    """Remove html tags from a string"""
+    import re
+
+    clean = re.compile("<.*?>")
+    return re.sub(clean, "", text)
 
 
 # Requisito 5

@@ -16,6 +16,7 @@ db = client.tech_news
 
 def create_news(data):
     db.news.insert_many(copy.deepcopy(data))
+    # db.news.insert_many(data)
 
 
 def insert_or_update(notice):

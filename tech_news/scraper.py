@@ -1,7 +1,12 @@
-import time
-import requests
 from requests.exceptions import ReadTimeout, MissingSchema
+from tech_news.database import create_news
 from bs4 import BeautifulSoup
+from math import ceil
+
+import requests
+import time
+
+BASE_URL = "https://blog.betrybe.com/"
 
 
 # Requisito 1
@@ -71,4 +76,36 @@ def remove_html_tags(text):
 
 # Requisito 5
 def get_tech_news(amount):
-    """Seu código deve vir aqui"""
+    necessary_pages = ceil(amount / 12)
+    pages_links = get_pages_links(necessary_pages)
+    tech_news_list = fetch_tech_news(pages_links, amount)
+
+    create_news(tech_news_list)
+
+    return tech_news_list
+
+
+def fetch_tech_news(pages_links, amount):
+    list = []
+    for page in pages_links:
+        html_content = fetch(page)
+        news_links = scrape_updates(html_content)
+
+        for link in news_links:
+            if len(list) == amount:
+                return list
+            html_content = fetch(link)
+            list.append(scrape_news(html_content))
+    return list
+
+
+def get_pages_links(amount):
+    next_page = scrape_next_page_link(fetch(BASE_URL))
+
+    pages_links = [BASE_URL]
+
+    for _ in range(1, amount):
+        pages_links.append(next_page)
+        next_page = scrape_next_page_link(fetch(next_page))
+
+    return pages_links

@@ -1,9 +1,8 @@
 from collections import Counter
 from tech_news.database import find_news
 
+
 # Requisito 10
-
-
 def top_5_news():
     news_list = find_news()
     sorted_news = sorted(

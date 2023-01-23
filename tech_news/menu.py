@@ -1,77 +1,45 @@
 import sys
-
-from tech_news.analyzer.ratings import top_5_categories, top_5_news
 from tech_news.scraper import get_tech_news
 from tech_news.analyzer.search_engine import (
-    search_by_category,
+    search_by_title,
     search_by_date,
     search_by_tag,
-    search_by_title,
+    search_by_category,
 )
+from tech_news.analyzer.ratings import top_5_news, top_5_categories
 
 
-def menu_add_news_to_db():
-    try:
-        amount = int(input("Digite quantas notícias serão buscadas: "))
-    except ValueError:
-        print("Quantidade inválida")
-        return
-    else:
-        return get_tech_news(amount)
+text_menu = """Selecione uma das opções a seguir:
+ 0 - Popular o banco com notícias;
+ 1 - Buscar notícias por título;
+ 2 - Buscar notícias por data;
+ 3 - Buscar notícias por tag;
+ 4 - Buscar notícias por categoria;
+ 5 - Listar top 5 notícias;
+ 6 - Listar top 5 categorias;
+ 7 - Sair.\n"""
 
 
-def menu_search_by_title():
-    title = input("Digite o título:")
-    return search_by_title(title)
+menu_options = {
+    "0": lambda: get_tech_news(
+        int(input("Digite quantas notícias serão buscadas:\n"))
+    ),
+    "1": lambda: search_by_title(input("Digite o título:\n")),
+    "2": lambda: search_by_date(
+        input("Digite a data no formato aaaa-mm-dd:\n")
+    ),
+    "3": lambda: search_by_tag(input("Digite a tag:\n")),
+    "4": lambda: search_by_category(input("Digite a categoria:\n")),
+    "5": lambda: top_5_news(),
+    "6": lambda: top_5_categories(),
+    "7": lambda: sys.stdout.write("Encerrando script\n"),
+}
 
 
-def menu_search_by_date():
-    date = input("Digite a data no formato aaaa-mm-dd:")
-    return search_by_date(date)
-
-
-def menu_search_by_category():
-    category = input("Digite a categoria:")
-    return search_by_category(category)
-
-
-def menu_search_by_tag():
-    tag = input("Digite a tag:")
-    return search_by_tag(tag)
-
-
-def menu_exit():
-    print("Encerrando script")
-
-
-# Requisito 12
 def analyzer_menu():
-
-    option = input(
-        "Selecione uma das opções a seguir:\n 0 - Popular o banco com notícias"
-        ";\n 1 - Buscar notícias por título;\n 2 - Buscar notícias por data;\n"
-        " 3 - Buscar notícias por tag;\n 4 - Buscar notícias por categoria;\n "
-        "5 - Listar top 5 notícias;\n 6 - Listar top 5 categorias;\n 7 - Sair."
-    )
+    option = input(text_menu)
     try:
-        option = int(option)
-    except ValueError:
-        print("Opção inválida", file=sys.stderr)
-        return
+        return menu_options[option]()
 
-    if option not in range(8):
-        print("Opção inválida", file=sys.stderr)
-        return
-
-    menu_functions = {
-        0: menu_add_news_to_db,
-        1: menu_search_by_title,
-        2: menu_search_by_date,
-        3: menu_search_by_tag,
-        4: menu_search_by_category,
-        5: top_5_news,
-        6: top_5_categories,
-        7: menu_exit,
-    }
-
-    return menu_functions[option]()
+    except (KeyError, ValueError):
+        return sys.stderr.write("Opção inválida\n")

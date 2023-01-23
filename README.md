@@ -59,7 +59,7 @@ O objetivo do projeto foi desenvolver um Web Crawler para rapasgem de dados dire
 <details>
   <summary markdown="span"><strong>:us: English</strong></summary><br />
     
-<details>
+<details open>
 <summary markdown="span"><strong>:computer: Local</strong></summary><br />
             
 **1 - Clone the repository and enter the project folder**
@@ -115,7 +115,7 @@ docker exec -it tech-news-analyzer tech-news-analyzer
 <details>
   <summary markdown="span"><strong>:brazil: Português</strong></summary><br />
 
-  <details>
+  <details open>
    <summary markdown="span"><strong>:computer: Local</strong></summary><br />
     
    **1 - Clone o repositório e entre na pasta do projeto**
